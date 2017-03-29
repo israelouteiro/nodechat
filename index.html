@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Node Chat</title> 
+
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	</head>
+	<body>
+
+		<div class="container">
+			<h1 class="text-center">NOde CHat</h1>  
+
+			<div class="col-sm-6 col-sm-offset-3 col-xs-12">
+				 <div class="mdl-textfield mdl-js-textfield">
+				    <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" style="width: 100%; resize: none;" ></textarea>
+				    <label class="mdl-textfield__label" for="sample5">DIgite sua mensagem...</label>
+				  </div>
+
+				<div class="row">
+					<a href="/cadastro">
+				  <button  type="button" class="mdl-button mdl-js-button">
+					  Ver cadastro
+					</button>
+				</a>
+
+				<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="buttonl_sendMessage">
+					  Enviar mensagem
+					</button>
+				</div>
+			</div>
+
+			<ul class="demo-list-item mdl-list">
+			</ul>
+ 
+		</div>
+		
+
+
+
+
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<!-- Latest compiled and minified CSS -->
+
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script>
+			
+			var socket;
+
+			$(document).ready(function(){
+				socket = io()
+				socket.on('chat.message', function(message){ 
+					var lit = $('<li/>', {
+						class:'mdl-list__item'
+					}).html(message)
+
+
+					$('.mdl-list').append(lit);
+				})
+			}); 
+
+			$('#buttonl_sendMessage').click(sendMessage)
+
+			var sendingSocket = function(text){
+				socket.emit('chat.message',	text)
+			};
+
+			function sendMessage(){ 
+				sendingSocket( $('#sample5').val() )
+				$('#sample5').val('')	
+			}
+
+		</script> 
+
+	</body>
+</html>
